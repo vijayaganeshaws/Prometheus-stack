@@ -1,4 +1,8 @@
-prometheus_dir_configuration: "/etc/prometheus"
+prometheus_version: "2.45.0"
+prometheus_user: "prometheus"
+prometheus_group: "{{ prometheus_user}}"
+prometheus_bin: "/usr/local/bin/"
+prometheus_dir_conf: "/etc/prometheus/"
 prometheus_retention_time: "365d"
 prometheus_scrape_interval: "30s"
 prometheus_node_exporter: true

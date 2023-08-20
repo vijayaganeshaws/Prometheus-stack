@@ -1,6 +1,10 @@
 ---
+alertmanager_version: "0.25.0"
 serviceName: "alertmanager"
-userId: "alertmanager"
-groupId: "alertmanager"
+alertmanager_user: "alertmanager"
+alertmanager_group: "{{ alertmanager_user }}"
+alertmanager_bin: "/usr/local/bin/alertmanager"
+alertmanager_dir_conf: "/etc/alertmanager/"
+alertmanager_dir_storage: "/data/alertmanager"
 exec_command: "/usr/local/bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/"
-version: "0.25.0"
+
