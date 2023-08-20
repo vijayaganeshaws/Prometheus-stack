@@ -1,0 +1,33 @@
+---
+- name: install gpg
+  yum:
+    name: gnupg
+    state: present
+- name: add gpg key
+  command:  "{{ item }}"
+  loop: 
+      - "wget -q -O gpg.key https://rpm.grafana.com/gpg.key"
+      - "sudo rpm --import gpg.key"
+- name: install grafana
+  yum:
+    name: "https://dl.grafana.com/enterprise/release/grafana-enterprise-9.5.8-1.x86_64.rpm"
+    state: present
+- name: start service grafana-server
+  systemd:
+    name: grafana-server
+    state: started
+    enabled: yes
+  notify:
+   - reload_systemd 
+- name: wait for service up
+  uri:
+    url: "http://127.0.0.1:3000"
+    status_code: 200
+  register: __result
+  until: __result.status == 200
+  retries: 120
+  delay: 1
+- name: change admin password for grafana gui
+  shell : "grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
+  register: __command_admin
+  changed_when: __command_admin.rc !=0
