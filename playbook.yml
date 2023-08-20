@@ -6,7 +6,7 @@
    - alertmanager
    - grafana
 - name: install node-exporter
-  hosts: node
+  hosts: tag_Name_webapp_poc
   become: yes
   roles:
    - node-exporter
