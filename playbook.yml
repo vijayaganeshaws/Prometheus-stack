@@ -6,7 +6,7 @@
    - alertmanager
    - grafana
 - name: install node-exporter
-  hosts: prometheus
+  hosts: node
   become: yes
   roles:
    - node-exporter

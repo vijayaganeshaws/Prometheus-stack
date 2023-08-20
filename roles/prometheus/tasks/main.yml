@@ -1,4 +1,12 @@
 ---
+- name: creating prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    append: true
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false  
+
 - name: download and unzip prometheus if not exist
   unarchive:
     src: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
@@ -20,18 +28,16 @@
    src: /tmp/prometheus-{{ prometheus_version }}.linux-amd64/                  
    dest: "{{ prometheus_dir_conf }}"
 
+- name: 
+  file:
+    path: /var/lib/prometheus
+    state: directory
+    owner: "{{ prometheus_user }}"
+
 - name: clean
   file:
     path: /tmp/prometheus-{{ prometheus_version }}.linux-amd64/
     state: absent
-
-- name: creating prometheus user
-  user:
-    name: "{{ prometheus_user }}"
-    append: true
-    shell: /usr/sbin/nologin
-    system: true
-    create_home: false  
 
 - name: create prometheus config dir
   file:
